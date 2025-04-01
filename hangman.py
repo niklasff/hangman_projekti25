@@ -36,3 +36,5 @@ class HangmanGame:
     def voititko(self):
         """Tarkistaa, voititko pelin"""
         return self.hae_tilanne().replace(" ", "") == self.sana
+    
+    nisse on vammanen
