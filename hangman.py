@@ -9,11 +9,9 @@ class HangmanGame:
         self.max_virheet = 6
 
     def hae_tilanne(self):
-        """Palauttaa sanan, jossa arvaamattomat kirjaimet ovat '_' """
-        return " ".join([kirjain if kirjain in self.arvatut_kirjaimet else "_" for kirjain in self.sana])
+        return " ".join([kirjain if kirjain in self.arvatut_kirjaimet else "_" for kirjain in self.sana]) # Palauttaa sanan, jossa arvaamattomat kirjaimet ovat '_' 
 
-    def arvaa_kirjain(self, kirjain):
-        """Käsittelee käyttäjän arvauksen ja palauttaa viestin"""
+    def arvaa_kirjain(self, kirjain): # Käsittelee käyttäjän arvauksen ja palauttaa viestin
         if kirjain in self.arvatut_kirjaimet:
             return "Olet jo arvannut tämän kirjaimen."
         
@@ -29,12 +27,9 @@ class HangmanGame:
                 return f"Hävisit! Sana oli: {self.sana}"
             return "Väärin!"
 
-    def peli_ohi(self):
-        """Tarkistaa, onko peli ohi"""
+    def peli_ohi(self): # Tarkistaa, onko peli ohi
         return self.virheiden_maara >= self.max_virheet or self.hae_tilanne().replace(" ", "") == self.sana
 
-    def voititko(self):
-        """Tarkistaa, voititko pelin"""
+    def voititko(self): # Tarkistaa, voitettiinko peli
         return self.hae_tilanne().replace(" ", "") == self.sana
     
-    nisse on vammanen
