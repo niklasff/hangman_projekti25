@@ -12,10 +12,10 @@ class HangmanGame:
         try:
             with open("sanat.txt", "r", encoding="utf-8") as tiedosto:
                 sanat = [rivi.strip() for rivi in tiedosto if rivi.strip()]
-            if not sanat:
+            if not sanat: # Tulostetaan virheilmoitus, jos sanatiedosto on tyhjä
                 raise ValueError("Sanatiedosto on tyhjä.")
             return sanat
-        except FileNotFoundError:
+        except FileNotFoundError: # Virheilmoitus, jos tiedostoa ei löydy
             print("Virhe: Tiedostoa 'sanat.txt' ei löytynyt.")
             exit(1)
         except ValueError as e:
@@ -51,7 +51,7 @@ class HangmanGame:
 # Testausskripti:
 if __name__ == "__main__":
     peli = HangmanGame()
-    print(f"Arvattava sana on: {peli.sana}")  # Testausta varten, pelissä tätä ei näytettäisi
+    print(f"Arvattava sana on: {peli.sana}")  # Testausta varten, pelissä tätä ei näytetä
 
     while not peli.peli_ohi():
         print("\nSana:", peli.hae_tilanne())
