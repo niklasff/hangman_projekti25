@@ -2,11 +2,26 @@ import random
 
 class HangmanGame:
     def __init__(self):
-        self.sanat = ["python", "ohjelmointi", "tietokone", "kehitys", "projekti"]
+        self.sanat = self.lataa_sanat_tiedostosta()
         self.sana = random.choice(self.sanat)
         self.arvatut_kirjaimet = []
         self.virheiden_maara = 0
         self.max_virheet = 6
+
+    def lataa_sanat_tiedostosta(self): # Sanat haetaan tiedostosta sanat.txt
+        try:
+            with open("sanat.txt", "r", encoding="utf-8") as tiedosto:
+                sanat = [rivi.strip() for rivi in tiedosto if rivi.strip()]
+            if not sanat:
+                raise ValueError("Sanatiedosto on tyhjä.")
+            return sanat
+        except FileNotFoundError:
+            print("Virhe: Tiedostoa 'sanat.txt' ei löytynyt.")
+            exit(1)
+        except ValueError as e:
+            print(f"Virhe: {e}")
+            exit(1)
+
 
     def hae_tilanne(self):
         return " ".join([kirjain if kirjain in self.arvatut_kirjaimet else "_" for kirjain in self.sana]) # Palauttaa sanan, jossa arvaamattomat kirjaimet ovat '_' 
@@ -33,3 +48,25 @@ class HangmanGame:
     def voititko(self): # Tarkistaa, voitettiinko peli
         return self.hae_tilanne().replace(" ", "") == self.sana
     
+# Testausskripti:
+if __name__ == "__main__":
+    peli = HangmanGame()
+    print(f"Arvattava sana on: {peli.sana}")  # Testausta varten, pelissä tätä ei näytettäisi
+
+    while not peli.peli_ohi():
+        print("\nSana:", peli.hae_tilanne())
+        kirjain = input("Arvaa kirjain: ").lower()
+        
+        if len(kirjain) != 1 or not kirjain.isalpha():
+            print("Syötä yksi kirjain!")
+            continue
+        
+        tulos = peli.arvaa_kirjain(kirjain)
+        print(tulos)
+
+    if peli.voititko():
+        print("Voitit pelin!")
+    else:
+        print("Hävisit!")
+
+

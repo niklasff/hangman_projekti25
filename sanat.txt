@@ -1,0 +1,4 @@
+kissa
+koira
+hevonen
+ankka
