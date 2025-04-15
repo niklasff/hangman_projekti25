@@ -7,7 +7,7 @@ class HangmanGUI:
         self.root.title("Hangman")
         self.show_start_screen()
 
-    def show_start_screen(self): #Määritellään aloitusruutu
+    def show_start_screen(self): #Määritellään aloitusruutu ja siihen kuuluvat otsikot ja napit
         self.clear_screen()
         
         self.label_title = tk.Label(self.root, text="Hangman", font=("Arial", 30))
@@ -21,6 +21,10 @@ class HangmanGUI:
 
         self.button_suljepeli = tk.Button(self.root, text="Sulje peli", command=self.sulje_peli)
         self.button_suljepeli.pack(pady=5)
+
+        self.button_add_word = tk.Button(self.root, text="Lisää sana sanalistaan", command=self.show_add_word_screen)
+        self.button_add_word.pack(pady=5)
+
 
     def start_game(self): #Pelin aloitus ja pelin sisällä oleva tilanne
         self.clear_screen()
@@ -42,15 +46,50 @@ class HangmanGUI:
         self.clear_screen()
         
         käyttöohjeet = ("Tervetuloa Hangman-peliin!\n" 
-                        "1. Arvaa sana kirjain kerrallaan.\n"
-                        "2. Sinulla on kuusi elämää.\n"
-                        "3. Ala pelaamaan.")
+                        "Tehtävänäsi on arvata sana kirjain kerrallaan.\n"
+                        "Väärä kirjain vie sinulta yhden elämän.\n"
+                        "Elämiä on yhteensä kuusi.\n"
+                        "Jos arvaat sanan oikein, voitat pelin.\n\n"
+                        "Voit myös lisätä omia sanojasi sanalistaan.")
         
-        self.label_käyttöohjeet = tk.Label(self.root, text=käyttöohjeet, font=("Arial", 14), justify="left")
+        self.label_käyttöohjeet = tk.Label(self.root, text=käyttöohjeet, font=("Arial", 14), justify="center", anchor="center")
         self.label_käyttöohjeet.pack(pady=20)
         
         self.button_back = tk.Button(self.root, text="Takaisin", command=self.show_start_screen)
         self.button_back.pack(pady=10)
+
+    def show_add_word_screen(self):
+        self.clear_screen()
+        self.label_add = tk.Label(self.root, text="Lisää uusi sana sanalistaan", font=("Arial", 18))
+        self.label_add.pack(pady=10)
+
+        self.entry_new_word = tk.Entry(self.root)
+        self.entry_new_word.pack(pady=5)
+
+        self.button_submit_word = tk.Button(self.root, text="Lisää sana", command=self.lisaa_sana)
+        self.button_submit_word.pack(pady=5)
+
+        self.label_feedback = tk.Label(self.root, text="", font=("Arial", 12))
+        self.label_feedback.pack(pady=10)
+
+        self.button_back = tk.Button(self.root, text="Takaisin", command=self.show_start_screen)
+        self.button_back.pack(pady=10)
+    
+    def lisaa_sana(self):
+        uusi_sana = self.entry_new_word.get()
+        peli = HangmanGame()
+        if not uusi_sana.isalpha():
+            self.label_feedback.config(text="Anna vain kirjaimia sisältävä sana.")
+            return
+
+        if uusi_sana.lower() in peli.sanat:
+            self.label_feedback.config(text=f"Sana '{uusi_sana}' on jo sanalistassa.")
+        else:
+            peli.lisaa_sana_sanalistaan(uusi_sana)
+            self.label_feedback.config(text=f"Sana '{uusi_sana}' lisättiin onnistuneesti!")
+            self.entry_new_word.delete(0, tk.END)
+
+
 
     def sulje_peli(self): #Sulje peli
         self.root.destroy()

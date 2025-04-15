@@ -26,7 +26,8 @@ class HangmanGame:
 
 
     def hae_tilanne(self):
-        return " ".join([kirjain if kirjain in self.arvatut_kirjaimet else "_" for kirjain in self.sana]) # Palauttaa sanan, jossa arvaamattomat kirjaimet ovat '_' 
+        return " ".join([kirjain if kirjain in self.arvatut_kirjaimet
+                          else "_" for kirjain in self.sana]) # Palauttaa sanan, jossa arvaamattomat kirjaimet ovat '_' 
 
     def arvaa_kirjain(self, kirjain): # Käsittelee käyttäjän arvauksen ja palauttaa viestin
         if kirjain in self.arvatut_kirjaimet:
@@ -49,6 +50,17 @@ class HangmanGame:
 
     def voititko(self): # Tarkistaa, voitettiinko peli
         return self.hae_tilanne().replace(" ", "") == self.sana
+
+    def lisaa_sana_sanalistaan(self, uusi_sana): # Käyttäjä voi lisätä sanoja listaan
+        uusi_sana = uusi_sana.strip().lower()
+
+        if uusi_sana in self.sanat:
+            print(f"Sana '{uusi_sana}' on jo sanalistassa.")
+        else:
+            with open("sanat.txt", "a", encoding="utf-8") as tiedosto:
+                tiedosto.write(f"{uusi_sana}\n")
+            self.sanat.append(uusi_sana)
+            print(f"Sana '{uusi_sana}' lisättiin sanalistaan.")
     
 
 
