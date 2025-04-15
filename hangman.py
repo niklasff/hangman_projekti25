@@ -10,7 +10,7 @@ class HangmanGame:
 
     def lataa_sanat_tiedostosta(self): # Sanat haetaan tiedostosta sanat.txt
         try:
-            with open("sanat.txt", "r", encoding="utf-8") as tiedosto:
+            with open("sanat.txt", "r", encoding="utf-8") as tiedosto: # Avataan tiedosto lukutilassa
                 sanat = [rivi.strip() for rivi in tiedosto if rivi.strip()]
             if not sanat: # Tulostetaan virheilmoitus, jos sanatiedosto on tyhjä
                 raise ValueError("Sanatiedosto on tyhjä.")
@@ -37,8 +37,8 @@ class HangmanGame:
                 return "Onneksi olkoon! Arvasit sanan oikein."
             return "Oikein!"
         else:
-            self.virheiden_maara += 1
-            if self.virheiden_maara >= self.max_virheet:
+            self.virheiden_maara += 1 # Jos kirjain on väärä, lisätään virheisiin yksi
+            if self.virheiden_maara >= self.max_virheet: # Jos virheitä on liikaa, peli hävitään
                 return f"Hävisit! Sana oli: {self.sana}"
             return "Väärin!"
 
@@ -48,25 +48,6 @@ class HangmanGame:
     def voititko(self): # Tarkistaa, voitettiinko peli
         return self.hae_tilanne().replace(" ", "") == self.sana
     
-# Testausskripti:
-if __name__ == "__main__":
-    peli = HangmanGame()
-    print(f"Arvattava sana on: {peli.sana}")  # Testausta varten, pelissä tätä ei näytetä
 
-    while not peli.peli_ohi():
-        print("\nSana:", peli.hae_tilanne())
-        kirjain = input("Arvaa kirjain: ").lower()
-        
-        if len(kirjain) != 1 or not kirjain.isalpha():
-            print("Syötä yksi kirjain!")
-            continue
-        
-        tulos = peli.arvaa_kirjain(kirjain)
-        print(tulos)
-
-    if peli.voititko():
-        print("Voitit pelin!")
-    else:
-        print("Hävisit!")
 
 
