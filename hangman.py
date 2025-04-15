@@ -8,6 +8,8 @@ class HangmanGame:
         self.virheiden_maara = 0
         self.max_virheet = 6
 
+    
+
     def lataa_sanat_tiedostosta(self): # Sanat haetaan tiedostosta sanat.txt
         try:
             with open("sanat.txt", "r", encoding="utf-8") as tiedosto: # Avataan tiedosto lukutilassa
